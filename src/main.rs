@@ -41,6 +41,15 @@ const EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID: EfiGuid = EfiGuid {
     data4: [0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a],
 }
 
+#[repr(C)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+struct EfiGuid {
+    data1: u32,
+    data2: u16,
+    data3: u16,
+    data4: [u8; 8],
+}
+
 use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
