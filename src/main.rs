@@ -26,7 +26,7 @@ const EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID: EfiGuid = EfiGuid {
     data2: 0x23dc,
     data3: 0x4a38,
     data4: [0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a],
-}
+};
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 #[must_use]
@@ -69,7 +69,7 @@ const _: () = assert!(size_of::<EfiGraphicsOutputProtocolPixelInfo>() == 36);
 struct EfiGraphicsOutputProtocolMode<'a> {
     pub max_mode: u32,
     pub mode: u32,
-    pub info: &'a EfiGraphicsOutputProtocolPixelInfo
+    pub info: &'a EfiGraphicsOutputProtocolPixelInfo,
     pub size_of_info: u64,
     pub frame_buffer_base: usize,
     pub frame_buffer_size: usize,
@@ -83,15 +83,14 @@ struct EfiGraphicsOutputProtocol<'a> {
 }
 
 fn locate_graphics_protocol<'a>(
-    efi_system_table: &EfiSystemTable
+    efi_system_table: &EfiSystemTable,
 ) -> Result<&'a EfiGraphicsOutputProtocol<'a>> {
     let mut graphic_output_protocol = null_mut::<EfiGraphicsOutputProtocol>();
-    let status = (efi_system_table.boot_services.locate_protocol) {
+    let status = (efi_system_table.boot_services.locate_protocol)(
         &EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID,
         null_mut::<EfiVoid>(),
-        &mut graphic_output_protocol as *mut *mut EfiGraphicsOutputProtocol
-        as *mut *mut EfiVoid,
-    }
+        &mut graphic_output_protocol as *mut *mut EfiGraphicsOutputProtocol as *mut *mut EfiVoid,
+    );
     if status != EfiStatus::Success {
         return Err("Failed to locate graphics output protocol");
     }
