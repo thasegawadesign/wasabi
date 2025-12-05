@@ -68,6 +68,17 @@ struct EfiGraphicsOutputProtocolMode<'a> {
     pub frame_buffer_size: usize,
 }
 
+#[repr(C)]
+#[derive(Debug)]
+struct EfiGraphicsOutputProtocolPixelInfo {
+    version: u32,
+    pub horizontal_resolution: u32,
+    pub vertical_resolution: u32,
+    _padding0: [u32; 5],
+    pub pixels_per_scan_line: u32,
+}
+const _: () = assert!(size_of::<EfiGraphicsOutputProtocolPixelInfo>() == 36);
+
 use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
