@@ -50,6 +50,24 @@ struct EfiGuid {
     data4: [u8; 8],
 }
 
+#[repr(C)]
+#[derive(Debug)]
+struct EfiGraphicsOutputProtocol<'a> {
+    reserved: [u64; 3],
+    pub mode: &'a EfiGraphicsOutputProtocolMode<'a>,
+}
+
+#[repr(C)]
+#[derive(Debug)]
+struct EfiGraphicsOutputProtocolMode<'a> {
+    pub max_mode: u32,
+    pub mode: u32,
+    pub info: &'a EfiGraphicsOutputProtocolPixelInfo
+    pub size_of_info: u64,
+    pub frame_buffer_base: usize,
+    pub frame_buffer_size: usize,
+}
+
 use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
