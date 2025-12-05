@@ -95,7 +95,23 @@ fn locate_graphics_protocol<'a>(
     Ok(unsafe { &*graphic_output_protocol })
 }
 
+use core::mem:offset_of;
+use core::mem::size_of;
 use core::panic::PanicInfo;
+use core::ptr::null_mut;
+use core::slice;
+
+type EfiVoid = u8;
+type EfiHandle = u64;
+type Result<T> = core::result::Result<T, &'static str>;
+
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[must_use]
+#[repr(u64)]
+enum EfiStatus {
+    Success = 0,
+}
+
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}
