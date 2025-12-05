@@ -2,7 +2,7 @@
 #![no_main]
 #![feature(offset_of)]
 
-use core::mem:offset_of;
+use core::mem::offset_of;
 use core::mem::size_of;
 use core::panic::PanicInfo;
 use core::ptr::null_mut;
